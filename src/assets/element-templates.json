@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Custom User Task",
+    "id": "com.example.customUserTask",
+    "appliesTo": [ "bpmn:UserTask" ],
+    "properties": [
+      {
+        "label": "Assignee",
+        "type": "String",
+        "binding": {
+          "type": "property",
+          "name": "camunda:assignee"
+        }
+      }
+    ]
+  }
+]
