@@ -13,7 +13,6 @@ export const useAutoSaveBpmn = (modelerRef, isReady = false) => {
             try {
                 const { xml } = await modeler.saveXML({ format: true });
                 localStorage.setItem(STORAGE_KEY, xml)
-                //console.log("Cambios guardados en localStorage");
             } catch (error) {
                 console.warn("Error al guardar en localStorage", error);
             }

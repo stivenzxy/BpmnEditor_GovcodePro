@@ -22,7 +22,7 @@ const FileLoader = ({ onImport }) => {
 
   return (
     <>
-      <button data-tooltip-id="loadXmlButton" data-tooltip-content="Cargar Bpmn"
+      <button data-tooltip-id="loadXmlButton" data-tooltip-content="Cargar Bpmn" data-tooltip-place="right"
         className="cursor-pointer rounded-md bg-slate-200 py-1 px-2" onClick={() => fileInputRef.current.click()}>
         <Tooltip id="loadXmlButton"></Tooltip>
         <FontAwesomeIcon icon={faArrowUpFromBracket}/>
@@ -36,6 +36,6 @@ const FileLoader = ({ onImport }) => {
       />
     </>
   );
-;}
+};
 
 export default FileLoader

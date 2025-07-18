@@ -25,6 +25,7 @@ import ElementTemplateChooserModule from "@bpmn-io/element-template-chooser";
 import camundaModdle from "camunda-bpmn-moddle/resources/camunda.json";
 
 import CustomRenderer from "../../renderers/customRenderer";
+import DeployProcessButton from "../DeployProcessButton/DeployProcessButton";
 
 const BpmnEditor = () => {
   const [isModelerReady, setIsModelerReady] = useState(false);
@@ -77,7 +78,7 @@ const BpmnEditor = () => {
     modelerRef.current.get("canvas").zoom("fit-viewport");
     let initialized = false;
 
-    // Observer para detectar cambios en el contenedor y evitar errores de renderizado del canvas
+    {/* Observer para detectar cambios en el contenedor y evitar errores de renderizado del canvas */}
     observerRef.current = new ResizeObserver((entries) => {
       if (initialized) return;
 
@@ -126,6 +127,7 @@ const BpmnEditor = () => {
           <FileLoader onImport={handleImport} />
           {isModelerReady && <FileSaver modelerInstance={modelerRef.current} />}
           <ResetButton modelerInstance={modelerRef.current} />
+          {isModelerReady && <DeployProcessButton modelerInstance={modelerRef.current} />}
         </div>
 
         <div
