@@ -1,0 +1,95 @@
+{
+  "name": "Enviar Email",
+  "id": "send-email-external",
+  "appliesTo": [
+    "bpmn:ServiceTask"
+  ],
+  "icon": {
+    "contents": "data:image/svg+xml;utf8,%3Csvg id='Layer_1' data-name='Layer 1' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 122.88 122.88'%3E%3Cdefs%3E%3Cstyle%3E.cls-1%7Bfill-rule:evenodd;%7D%3C/style%3E%3C/defs%3E%3Ctitle%3Eemail-round-color%3C/title%3E%3Cpath class='cls-1' d='M61.44,0A61.44,61.44,0,1,1,0,61.44,61.44,61.44,0,0,1,61.44,0ZM30.73,38,62,63.47,91.91,38Zm-2,42.89L51,58.55,28.71,40.39V80.87ZM53.43,60.55l-22.95,23H92.21l-21.94-23L63,66.71h0a1.57,1.57,0,0,1-2,0l-7.59-6.19Zm19.24-2,21.5,22.54V40.19L72.67,58.51Z'/%3E%3C/svg%3E"
+  },
+  "documentation": "Realiza una llamada HTTP a un servicio de envío de Emails mediante un worker.",
+  "elementType": {
+    "value": "bpmn:ServiceTask"
+  },
+  "properties": [
+    {
+      "label": "Topic",
+      "type": "Hidden",
+      "value": "send-email-topic",
+      "binding": {
+        "type": "property",
+        "name": "camunda:topic"
+      }
+    },
+    {
+      "label": "Implementación",
+      "type": "Hidden",
+      "value": "external",
+      "binding": {
+        "type": "property",
+        "name": "camunda:type"
+      }
+    },
+    {
+      "label": "Manejo de Jobs (asyncBefore)",
+      "type": "Hidden",
+      "value": true,
+      "binding": {
+        "type": "property",
+        "name": "camunda:asyncBefore"
+      }
+    },
+    {
+      "label": "Url del servicio externo",
+      "type": "Hidden",
+      "value": "https://fake.test/email",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "url"
+      }
+    },
+    {
+      "label": "Método HTTP",
+      "type": "Hidden",
+      "value": "POST",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "method"
+      }
+    },
+    {
+      "label": "Correo de notificación",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "toEmail"
+      },
+      "constraints": {
+        "notEmpty": true,
+        "pattern": "^[\\w\\.-]+@[\\w\\.-]+\\.\\w{2,}$"
+      },
+      "description": "Debe ser un correo electrónico válido (ej. usuario@dominio.com)"
+    },
+    {
+      "label": "Asunto del mensaje",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "subject"
+      },
+      "description": "Ingrese el asunto del mensaje"
+    },
+    {
+      "label": "Mensaje",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "message"
+      },
+      "constraints": {
+        "notEmpty": true
+      },
+      "description": "Ingrese el contenido del mensaje"
+    }
+  ]
+}

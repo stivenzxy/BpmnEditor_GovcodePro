@@ -9,15 +9,22 @@ import FileLoader from "../FileLoader/FileLoader";
 import FileSaver from "../FileSaver/FileSaver";
 import { useAutoSaveBpmn } from "../../hooks/useAutoSaveBpmn";
 import ResetButton from "../ResetButton/ResetButton";
-import { BpmnPropertiesPanelModule, BpmnPropertiesProviderModule } from "bpmn-js-properties-panel";
+import {
+  BpmnPropertiesPanelModule,
+  BpmnPropertiesProviderModule,
+} from "bpmn-js-properties-panel";
 
 import "@bpmn-io/properties-panel/dist/assets/properties-panel.css";
 import "@bpmn-io/element-template-chooser/dist/element-template-chooser.css";
-import { ElementTemplatesCoreModule, ElementTemplatesPropertiesProviderModule } from 'bpmn-js-element-templates';
-import ElementTemplateChooserModule from '@bpmn-io/element-template-chooser';
+import {
+  ElementTemplatesCoreModule,
+  ElementTemplatesPropertiesProviderModule,
+} from "bpmn-js-element-templates";
+import ElementTemplateChooserModule from "@bpmn-io/element-template-chooser";
 
-import elementTemplates from "../../assets/element-templates.json";
-import camundaModdle from 'camunda-bpmn-moddle/resources/camunda.json';
+import camundaModdle from "camunda-bpmn-moddle/resources/camunda.json";
+
+import CustomRenderer from "../../renderers/customRenderer";
 
 const BpmnEditor = () => {
   const [isModelerReady, setIsModelerReady] = useState(false);
@@ -30,6 +37,10 @@ const BpmnEditor = () => {
     const container = containerRef.current;
     if (!container) return;
 
+    const templateModules = import.meta.glob('../../assets/element-templates/*.json', { eager: true });
+    const templates = Object.values(templateModules).flatMap(mod => Array.isArray(mod.default) ? mod.default : [mod.default]);
+
+
     modelerRef.current = new BpmnModeler({
       container,
       propertiesPanel: {
@@ -40,20 +51,30 @@ const BpmnEditor = () => {
         BpmnPropertiesProviderModule,
         ElementTemplatesCoreModule,
         ElementTemplatesPropertiesProviderModule,
-        ElementTemplateChooserModule
+        ElementTemplateChooserModule,
+        {
+          __init__: ["customRenderer"],
+          customRenderer: [
+            "type",
+            function (eventBus, bpmnRenderer) {
+              return new CustomRenderer(eventBus, bpmnRenderer, templates);
+            },
+          ],
+        },
       ],
       moddleExtensions: {
-        camunda: camundaModdle
+        camunda: camundaModdle,
       },
     });
+
     setIsModelerReady(true);
 
     modelerRef.current.on("elementTemplates.errors", (event) => {
       console.warn("Errores al cargar templates:", event.errors);
     });
 
-    modelerRef.current.get("elementTemplatesLoader").setTemplates(elementTemplates);
-    modelerRef.current.get('canvas').zoom('fit-viewport');
+    modelerRef.current.get("elementTemplatesLoader").setTemplates(templates);
+    modelerRef.current.get("canvas").zoom("fit-viewport");
     let initialized = false;
 
     // Observer para detectar cambios en el contenedor y evitar errores de renderizado del canvas
@@ -88,7 +109,7 @@ const BpmnEditor = () => {
     try {
       await modelerRef.current?.importXML(xmlFile);
       const { xml } = await modelerRef.current.saveXML({ format: true });
-      
+
       localStorage.setItem("bpmn-draft", xml);
       console.log("Modelo cargado exitosamente!");
     } catch (error) {
