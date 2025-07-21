@@ -13,9 +13,18 @@
   },
   "properties": [
     {
+      "label": "Servicio",
+      "type": "Hidden",
+      "value": "SendEmail",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "servicio"
+      }
+    },
+    {
       "label": "Topic",
       "type": "Hidden",
-      "value": "send-email-topic",
+      "value": "interop-topic",
       "binding": {
         "type": "property",
         "name": "camunda:topic"
@@ -42,7 +51,7 @@
     {
       "label": "Url del servicio externo",
       "type": "Hidden",
-      "value": "https://fake.test/email",
+      "value": "http://localhost:5252/api/notification/send",
       "binding": {
         "type": "camunda:inputParameter",
         "name": "url"
