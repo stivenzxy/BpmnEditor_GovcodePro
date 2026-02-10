@@ -15,16 +15,25 @@
     {
       "label": "Servicio",
       "type": "Hidden",
-      "value": "SendEmail",
+      "value": "jackCoreEmailNotification",
       "binding": {
         "type": "camunda:inputParameter",
-        "name": "servicio"
+        "name": "service"
+      }
+    },
+    {
+      "label": "Método HTTP",
+      "type": "Hidden",
+      "value": "email",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "operation"
       }
     },
     {
       "label": "Topic",
       "type": "Hidden",
-      "value": "interop-topic",
+      "value": "interoperability",
       "binding": {
         "type": "property",
         "name": "camunda:topic"
@@ -49,56 +58,55 @@
       }
     },
     {
-      "label": "Url del servicio externo",
+      "label": "Tipo de Medio Http",
       "type": "Hidden",
-      "value": "http://localhost:5252/api/notification/send",
+      "value": "application/json",
       "binding": {
         "type": "camunda:inputParameter",
-        "name": "url"
-      }
-    },
-    {
-      "label": "Método HTTP",
-      "type": "Hidden",
-      "value": "POST",
-      "binding": {
-        "type": "camunda:inputParameter",
-        "name": "method"
+        "name": "contentType"
       }
     },
     {
       "label": "Correo de notificación",
-      "type": "String",
+      "type": "Text",
       "binding": {
         "type": "camunda:inputParameter",
-        "name": "toEmail"
-      },
-      "constraints": {
-        "notEmpty": true,
-        "pattern": "^[\\w\\.-]+@[\\w\\.-]+\\.\\w{2,}$"
-      },
-      "description": "Debe ser un correo electrónico válido (ej. usuario@dominio.com)"
-    },
-    {
-      "label": "Asunto del mensaje",
-      "type": "String",
-      "binding": {
-        "type": "camunda:inputParameter",
-        "name": "subject"
-      },
-      "description": "Ingrese el asunto del mensaje"
-    },
-    {
-      "label": "Mensaje",
-      "type": "String",
-      "binding": {
-        "type": "camunda:inputParameter",
-        "name": "message"
+        "name": "destinatary"
       },
       "constraints": {
         "notEmpty": true
       },
-      "description": "Ingrese el contenido del mensaje"
+      "description": "Correo electrónico o expresión (ej. usuario@dominio.com o ${email})"
+    },
+    {
+      "label": "Asunto del mensaje",
+      "type": "Text",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "subject"
+      },
+      "description": "Asunto o expresión (ej. Notificación o ${subject})"
+    },
+    {
+      "label": "Mensaje",
+      "type": "Text",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "messageContent"
+      },
+      "constraints": {
+        "notEmpty": true
+      },
+      "description": "Contenido del mensaje o expresión (ej. Hola ${nombre})"
+    },
+    {
+      "label": "Request Payload",
+      "type": "Hidden",
+      "value": "{\"MessageBody\":{\"Subject\":\"{{subject}}\",\"Destinatary\":\"{{destinatary}}\",\"MessageContent\":\"{{messageContent}}\"}}",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "payloadStructure"
+      }
     }
   ]
 }

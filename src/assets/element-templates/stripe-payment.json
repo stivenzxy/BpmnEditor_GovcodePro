@@ -15,10 +15,10 @@
         {
             "label": "Servicio",
             "type": "Hidden",
-            "value": "StripePayment",
+            "value": "stripePayment",
             "binding": {
                 "type": "camunda:inputParameter",
-                "name": "servicio"
+                "name": "service"
             }
         },
         {
@@ -33,7 +33,7 @@
         {
             "label": "Topic",
             "type": "Hidden",
-            "value": "interop-topic",
+            "value": "interoperability",
             "binding": {
                 "type": "property",
                 "name": "camunda:topic"
@@ -67,16 +67,25 @@
             }
         },
         {
-            "label": "Stripe API Key",
+            "label": "Stripe Secret API Key",
             "type": "Hidden",
             "value": "STRIPE_SECRET_KEY",
             "binding": {
                 "type": "camunda:inputParameter",
-                "name": "apiKey"
+                "name": "secrets_stripePayment_authorization"
             }
         },
         {
-            "label": "Monto (en centavos)",
+            "label": "Tipo de Medio Http",
+            "type": "Hidden",
+            "value": "application/x-www-form-urlencoded",
+            "binding": {
+                "type": "camunda:inputParameter",
+                "name": "contentType"
+            }
+        },
+        {
+            "label": "Monto",
             "type": "String",
             "binding": {
                 "type": "camunda:inputParameter",
@@ -86,7 +95,7 @@
                 "notEmpty": true,
                 "pattern": "^\\d+$"
             },
-            "description": "Valor del pago en centavos. Ej: 5000 para 50 USD"
+            "description": "Valor del pago (en centavos de usd)"
         },
         {
             "label": "Moneda",
@@ -96,10 +105,37 @@
                 "name": "currency"
             },
             "defaultValue": "usd",
+            "description": "Código de moneda ISO. Ej: usd, eur, cop"
+        },
+        {
+            "label": "Fuente de pago",
+            "type": "Dropdown",
+            "binding": {
+                "type": "camunda:inputParameter",
+                "name": "source"
+            },
             "constraints": {
                 "notEmpty": true
             },
-            "description": "Código de moneda ISO. Ej: usd, eur"
+            "choices": [
+                {
+                    "name": "Visa",
+                    "value": "tok_visa"
+                },
+                {
+                    "name": "MasterCard",
+                    "value": "tok_mastercard"
+                },
+                {
+                    "name": "American Express",
+                    "value": "tok_amex"
+                },
+                {
+                    "name": "Discover",
+                    "value": "tok_discover"
+                }
+            ],
+            "description": "Selecciona una fuente de pago"
         }
     ]
 }

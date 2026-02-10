@@ -1,0 +1,123 @@
+{
+  "name": "Llamada HTTP Genérica",
+  "id": "generic-http-request",
+  "appliesTo": [
+    "bpmn:ServiceTask"
+  ],
+  "icon": {
+    "contents": "data:image/svg+xml;utf8,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%231976D2' d='M50 10C27.9 10 10 27.9 10 50s17.9 40 40 40 40-17.9 40-40S72.1 10 50 10zm0 72c-17.6 0-32-14.4-32-32s14.4-32 32-32 32 14.4 32 32-14.4 32-32 32zm15-32h-10v-10h-10v10h-10v10h10v10h10v-10h10v-10z'/%3E%3Cpath fill='%231565C0' d='M80 50h-8v-8h-4v8H60v4h8v8h4v-8h8z'/%3E%3C/svg%3E"
+  },
+  "documentation": "Realiza una petición HTTP REST arbitraria sin depender de un servicio pre-configurado.",
+  "elementType": {
+    "value": "bpmn:ServiceTask"
+  },
+  "properties": [
+    {
+      "label": "Topic",
+      "type": "Hidden",
+      "value": "interoperability",
+      "binding": {
+        "type": "property",
+        "name": "camunda:topic"
+      }
+    },
+    {
+      "label": "Implementación",
+      "type": "Hidden",
+      "value": "external",
+      "binding": {
+        "type": "property",
+        "name": "camunda:type"
+      }
+    },
+    {
+      "label": "Manejo de Jobs (asyncBefore)",
+      "type": "Hidden",
+      "value": true,
+      "binding": {
+        "type": "property",
+        "name": "camunda:asyncBefore"
+      }
+    },
+    {
+      "label": "Variables de Control (Bypass)",
+      "type": "Hidden",
+      "value": "generic",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "service"
+      },
+      "description": "Necesario para pasar la validación del backend"
+    },
+    {
+      "label": "Variables de Control (Bypass)",
+      "type": "Hidden",
+      "value": "raw-request",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "operation"
+      },
+      "description": "Necesario para pasar la validación del backend"
+    },
+    {
+      "label": "Método HTTP",
+      "type": "Dropdown",
+      "value": "POST",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "method"
+      },
+      "choices": [
+        { "name": "GET", "value": "GET" },
+        { "name": "POST", "value": "POST" },
+        { "name": "PUT", "value": "PUT" },
+        { "name": "PATCH", "value": "PATCH" },
+        { "name": "DELETE", "value": "DELETE" }
+      ]
+    },
+    {
+      "label": "URL del Endpoint",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "url"
+      },
+      "constraints": {
+        "notEmpty": true
+      },
+      "description": "URL completa (ej. https://api.externa.com/v1/datos)"
+    },
+    {
+      "label": "Content Type",
+      "type": "Dropdown",
+      "value": "application/json",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "contentType"
+      },
+      "choices": [
+        { "name": "JSON (application/json)", "value": "application/json" },
+        { "name": "XML (application/xml)", "value": "application/xml" },
+        { "name": "Texto Plano (text/plain)", "value": "text/plain" }
+      ]
+    },
+    {
+      "label": "Payload (Estructura JSON)",
+      "type": "Text",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "payloadStructure"
+      },
+      "description": "Ingrese el payload en formato JSON (solo para POST/PUT)."
+    },
+    {
+      "label": "Variables de Salida (Mapping)",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "outputMapping"
+      },
+      "description": "Nombres de propiedades del JSON de respuesta a extraer, separados por coma (ej: id, name, status). Buscará recursivamente."
+    }
+  ]
+}

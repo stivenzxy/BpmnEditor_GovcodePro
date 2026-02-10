@@ -50,7 +50,9 @@ const DeployProcessButton = ({ modelerInstance }) => {
                         timerProgressBar: true,
                         timer: 5000
                     })
-                    Toast.fire(`Proceso desplegado exitosamente con ID: ${deployedProcessId}`);
+                    Toast.fire({
+                        title: `Proceso desplegado exitosamente con ID: ${deployedProcessId}`
+                    });
                 }
             } else {
                 const error = await response.json();
@@ -63,7 +65,9 @@ const DeployProcessButton = ({ modelerInstance }) => {
                         timerProgressBar: true,
                         timer: 3000
                     })
-                    Toast.fire(`"Error al desplegar el proceso: ${error.message}`);
+                    Toast.fire({
+                        title: `Error al desplegar el proceso: ${error.message}`
+                    });
             }
         } catch (error) {
             console.error(error);
